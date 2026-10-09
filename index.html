@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>name="viewport"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>content="width=device-width, initial-scale=1.0"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;QR Scanner&lt;/title&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- QR scanning library --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>margin: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: #f5f5f5;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#topbar {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>padding: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: white;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #ddd;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#currentTable {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-size: 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-weight: bold;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-size: 18px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>padding: 10px 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>margin: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cursor: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#readerContainer {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>max-width: 600px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>margin: 20px auto;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#reader {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#message {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display: none;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: fixed;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>top: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>left: 0;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>height: 100%;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: white;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>z-index: 1000;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>align-items: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>justify-content: center;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-size: 42px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-weight: bold;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* ------------------------------</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">       </span>Table-name setup screen</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">       </span>------------------------------ */</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#setupScreen {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: fixed;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>top: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>left: 0;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>height: 100%;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: white;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>z-index: 2000;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>align-items: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>justify-content: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#setupBox {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 90%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>max-width: 450px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#tableInput {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 80%;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-size: 24px;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>padding: 12px;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;!-- ==========================================</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>Initial table-name screen</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>========================================== --&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="setupScreen"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="setupBox"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Scanner Setup&lt;/h1&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>Enter the name of this location/table.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;input</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>id="tableInput"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>type="text"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>placeholder="e.g. table1"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="setTable()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>Start Scanner</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;!-- ==========================================</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>Main scanner screen</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>========================================== --&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="topbar"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>Scanner location:</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;span id="currentTable"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>-</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/span&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;button onclick="changeTable()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>Change Table</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="readerContainer"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;h2&gt;Please scan your QR code&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="reader"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;!-- ==========================================</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>Thank-you overlay</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>========================================== --&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="message"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>Thank you for coming!</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;!-- Hidden destination for Google response --&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;iframe</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>name="googleResponse"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>style="display:none;"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/iframe&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// SETTINGS</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// Replace this with YOUR Apps Script deployment URL.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">const APPS_SCRIPT_URL =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>"https://script.google.com/a/macros/g.ecc.u-tokyo.ac.jp/s/AKfycbxTb_jZj55UNHbv3fcv-CiAJnNRqHFFZCeyFAQViqqqNkYCC9hNCddLe1qmNIqAoXFE/exec";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// Scanner is disabled for this many milliseconds</span></p>
+<p class="p1"><span class="s1">// after a successful scan.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">const COOLDOWN_MS = 5000;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// VARIABLES</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let currentTable = "";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let scanner = null;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let scanLocked = false;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// TABLE SETUP</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function setTable() {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const input =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById("tableInput");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const name =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input.value.trim();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!name) {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>alert("Please enter a table name.");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>currentTable = name;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById("currentTable")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.textContent = currentTable;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById("setupScreen")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.style.display = "none";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Start camera only the first time.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!scanner) {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>startScanner();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function changeTable() {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById("tableInput").value =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>currentTable;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById("setupScreen")</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.style.display = "flex";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// QR SCANNER</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function startScanner() {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>scanner =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>new Html5Qrcode("reader");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const config = {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>fps: 10,</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>qrbox: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 250,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>height: 250</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>scanner.start(</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>facingMode: "environment"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>},</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>config,</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>onScanSuccess,</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>onScanFailure</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>).catch(function(error) {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>console.error(error);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>alert(</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>"Could not access the camera. " +</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>"Please allow camera permission and reload the page."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// SUCCESSFUL QR DETECTION</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function onScanSuccess(decodedText) {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Ignore scans while cooldown is active.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (scanLocked) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>scanLocked = true;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Send data to Google Sheet.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>sendToGoogleSheet(</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>decodedText,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>currentTable</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Show thank-you screen.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const message =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById("message");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>message.style.display = "flex";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Wait 5 seconds, then return to scanner.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setTimeout(function() {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>message.style.display = "none";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>scanLocked = false;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}, COOLDOWN_MS);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// IGNORE SCANNER FAILURES</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function onScanFailure(error) {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// A QR scanner generates many "not found" messages</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// while looking at the camera image.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// We intentionally do nothing here.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p1"><span class="s1">// SEND DATA TO GOOGLE APPS SCRIPT</span></p>
+<p class="p1"><span class="s1">// =======================================================</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function sendToGoogleSheet(qrText, tableName) {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// We submit a normal HTML form to Apps Script.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>//</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// This avoids browser cross-origin restrictions.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>//</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// The response goes into a hidden iframe, so</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// the visitor never leaves the scanner page.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const form =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.createElement("form");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.method = "POST";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.action =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>APPS_SCRIPT_URL;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.target =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>"googleResponse";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.style.display =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>"none";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// QR value</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const qrField =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.createElement("input");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>qrField.name =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>"qr";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>qrField.value =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>qrText;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Table name</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const tableField =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.createElement("input");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>tableField.name =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>"table";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>tableField.value =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>tableName;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.appendChild(qrField);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.appendChild(tableField);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.body.appendChild(form);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>form.submit();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Remove temporary form.</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setTimeout(function() {</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>form.remove();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}, 1000);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
