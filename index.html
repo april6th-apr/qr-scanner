@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -12,14 +11,9 @@
 
   <title>QR Scanner</title>
 
-  <!-- QR scanning library -->
-  <script
-    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
-  </script>
-
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <style>
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -56,43 +50,27 @@
 
     #message {
       display: none;
-
       position: fixed;
       top: 0;
       left: 0;
-
       width: 100%;
       height: 100%;
-
       background: white;
-
       z-index: 1000;
-
       align-items: center;
       justify-content: center;
-
       font-size: 42px;
       font-weight: bold;
     }
 
-
-    /* ------------------------------
-       Table-name setup screen
-       ------------------------------ */
-
     #setupScreen {
       position: fixed;
-
       top: 0;
       left: 0;
-
       width: 100%;
       height: 100%;
-
       background: white;
-
       z-index: 2000;
-
       display: flex;
       align-items: center;
       justify-content: center;
@@ -105,382 +83,191 @@
 
     #tableInput {
       width: 80%;
-
       font-size: 24px;
-
       padding: 12px;
-
       text-align: center;
     }
-
   </style>
-
 </head>
-
-
 
 <body>
 
+  <div id="setupScreen">
+    <div id="setupBox">
+      <h1>Scanner Setup</h1>
 
-<!-- ==========================================
-     Initial table-name screen
-     ========================================== -->
+      <p>Enter the name of this location/table.</p>
 
-<div id="setupScreen">
+      <input
+        id="tableInput"
+        type="text"
+        placeholder="e.g. table1"
+      >
 
-  <div id="setupBox">
+      <br>
 
-    <h1>Scanner Setup</h1>
+      <button onclick="setTable()">
+        Start Scanner
+      </button>
+    </div>
+  </div>
 
-    <p>
-      Enter the name of this location/table.
-    </p>
+  <div id="topbar">
+    Scanner location:
 
-    <input
-      id="tableInput"
-      type="text"
-      placeholder="e.g. table1"
-    >
+    <span id="currentTable">
+      -
+    </span>
 
     <br>
 
-    <button onclick="setTable()">
-      Start Scanner
+    <button onclick="changeTable()">
+      Change Table
     </button>
-
   </div>
 
-</div>
+  <div id="readerContainer">
+    <h2>Please scan your QR code</h2>
 
+    <div id="reader"></div>
+  </div>
 
+  <div id="message">
+    Thank you for coming!
+  </div>
 
-<!-- ==========================================
-     Main scanner screen
-     ========================================== -->
+  <iframe
+    name="googleResponse"
+    style="display:none;">
+  </iframe>
 
-<div id="topbar">
+  <script>
+    const APPS_SCRIPT_URL =
+      "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
-  Scanner location:
+    const COOLDOWN_MS = 5000;
 
-  <span id="currentTable">
-    -
-  </span>
+    let currentTable = "";
+    let scanner = null;
+    let scanLocked = false;
 
-  <br>
+    function setTable() {
+      const input = document.getElementById("tableInput");
+      const name = input.value.trim();
 
-  <button onclick="changeTable()">
-    Change Table
-  </button>
+      if (!name) {
+        alert("Please enter a table name.");
+        return;
+      }
 
-</div>
+      currentTable = name;
 
+      document.getElementById("currentTable").textContent =
+        currentTable;
 
-<div id="readerContainer">
+      document.getElementById("setupScreen").style.display =
+        "none";
 
-  <h2>Please scan your QR code</h2>
-
-  <div id="reader"></div>
-
-</div>
-
-
-
-<!-- ==========================================
-     Thank-you overlay
-     ========================================== -->
-
-<div id="message">
-  Thank you for coming!
-</div>
-
-
-
-<!-- Hidden destination for Google response -->
-
-<iframe
-  name="googleResponse"
-  style="display:none;">
-</iframe>
-
-
-
-<script>
-
-
-// =======================================================
-// SETTINGS
-// =======================================================
-
-
-// Replace this with YOUR Apps Script deployment URL.
-
-const APPS_SCRIPT_URL =
-  "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
-
-
-// Scanner is disabled for this many milliseconds
-// after a successful scan.
-
-const COOLDOWN_MS = 5000;
-
-
-// =======================================================
-// VARIABLES
-// =======================================================
-
-let currentTable = "";
-
-let scanner = null;
-
-let scanLocked = false;
-
-
-// =======================================================
-// TABLE SETUP
-// =======================================================
-
-function setTable() {
-
-  const input =
-    document.getElementById("tableInput");
-
-  const name =
-    input.value.trim();
-
-
-  if (!name) {
-
-    alert("Please enter a table name.");
-
-    return;
-  }
-
-
-  currentTable = name;
-
-
-  document.getElementById("currentTable")
-    .textContent = currentTable;
-
-
-  document.getElementById("setupScreen")
-    .style.display = "none";
-
-
-  // Start camera only the first time.
-
-  if (!scanner) {
-
-    startScanner();
-
-  }
-
-}
-
-
-
-function changeTable() {
-
-  document.getElementById("tableInput").value =
-    currentTable;
-
-  document.getElementById("setupScreen")
-    .style.display = "flex";
-
-}
-
-
-
-// =======================================================
-// QR SCANNER
-// =======================================================
-
-function startScanner() {
-
-  scanner =
-    new Html5Qrcode("reader");
-
-
-  const config = {
-
-    fps: 10,
-
-    qrbox: {
-      width: 250,
-      height: 250
+      if (!scanner) {
+        startScanner();
+      }
     }
 
-  };
-
-
-  scanner.start(
-
-    {
-      facingMode: "environment"
-    },
-
-    config,
-
-    onScanSuccess,
-
-    onScanFailure
-
-  ).catch(function(error) {
-
-    console.error(error);
-
-    alert(
-      "Could not access the camera. " +
-      "Please allow camera permission and reload the page."
-    );
-
-  });
-
-}
-
-
-
-// =======================================================
-// SUCCESSFUL QR DETECTION
-// =======================================================
-
-function onScanSuccess(decodedText) {
-
-
-  // Ignore scans while cooldown is active.
-
-  if (scanLocked) {
-    return;
-  }
-
-
-  scanLocked = true;
-
-
-  // Send data to Google Sheet.
-
-  sendToGoogleSheet(
-    decodedText,
-    currentTable
-  );
-
-
-  // Show thank-you screen.
-
-  const message =
-    document.getElementById("message");
-
-  message.style.display = "flex";
-
-
-  // Wait 5 seconds, then return to scanner.
-
-  setTimeout(function() {
-
-    message.style.display = "none";
-
-    scanLocked = false;
-
-  }, COOLDOWN_MS);
-
-}
-
-
-
-// =======================================================
-// IGNORE SCANNER FAILURES
-// =======================================================
-
-function onScanFailure(error) {
-
-  // A QR scanner generates many "not found" messages
-  // while looking at the camera image.
-  // We intentionally do nothing here.
-
-}
-
-
-
-// =======================================================
-// SEND DATA TO GOOGLE APPS SCRIPT
-// =======================================================
-
-function sendToGoogleSheet(qrText, tableName) {
-
-
-  // We submit a normal HTML form to Apps Script.
-  //
-  // This avoids browser cross-origin restrictions.
-  //
-  // The response goes into a hidden iframe, so
-  // the visitor never leaves the scanner page.
-
-
-  const form =
-    document.createElement("form");
-
-
-  form.method = "POST";
-
-  form.action =
-    APPS_SCRIPT_URL;
-
-  form.target =
-    "googleResponse";
-
-  form.style.display =
-    "none";
-
-
-
-  // QR value
-
-  const qrField =
-    document.createElement("input");
-
-  qrField.name =
-    "qr";
-
-  qrField.value =
-    qrText;
-
-
-  // Table name
-
-  const tableField =
-    document.createElement("input");
-
-  tableField.name =
-    "table";
-
-  tableField.value =
-    tableName;
-
-
-  form.appendChild(qrField);
-
-  form.appendChild(tableField);
-
-
-  document.body.appendChild(form);
-
-
-  form.submit();
-
-
-  // Remove temporary form.
-
-  setTimeout(function() {
-
-    form.remove();
-
-  }, 1000);
-
-}
-
-
-</script>
-
+    function changeTable() {
+      document.getElementById("tableInput").value =
+        currentTable;
+
+      document.getElementById("setupScreen").style.display =
+        "flex";
+    }
+
+    function startScanner() {
+      scanner = new Html5Qrcode("reader");
+
+      const config = {
+        fps: 10,
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      };
+
+      scanner.start(
+        {
+          facingMode: "environment"
+        },
+        config,
+        onScanSuccess,
+        onScanFailure
+      ).catch(function(error) {
+        console.error(error);
+
+        alert(
+          "Could not access the camera. Please allow camera permission and reload the page."
+        );
+      });
+    }
+
+    function onScanSuccess(decodedText) {
+      if (scanLocked) {
+        return;
+      }
+
+      scanLocked = true;
+
+      sendToGoogleSheet(
+        decodedText,
+        currentTable
+      );
+
+      const message =
+        document.getElementById("message");
+
+      message.style.display = "flex";
+
+      setTimeout(function() {
+        message.style.display = "none";
+        scanLocked = false;
+      }, COOLDOWN_MS);
+    }
+
+    function onScanFailure(error) {
+      // Intentionally ignored while scanning.
+    }
+
+    function sendToGoogleSheet(qrText, tableName) {
+      const form =
+        document.createElement("form");
+
+      form.method = "POST";
+      form.action = APPS_SCRIPT_URL;
+      form.target = "googleResponse";
+      form.style.display = "none";
+
+      const qrField =
+        document.createElement("input");
+
+      qrField.name = "qr";
+      qrField.value = qrText;
+
+      const tableField =
+        document.createElement("input");
+
+      tableField.name = "table";
+      tableField.value = tableName;
+
+      form.appendChild(qrField);
+      form.appendChild(tableField);
+
+      document.body.appendChild(form);
+
+      form.submit();
+
+      setTimeout(function() {
+        form.remove();
+      }, 1000);
+    }
+  </script>
 
 </body>
 
